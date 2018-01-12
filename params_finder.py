@@ -1,3 +1,4 @@
+from __future__ import print_function
 import argparse
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer, HashingVectorizer
@@ -12,43 +13,17 @@ from sklearn.pipeline import make_union
 from sklearn.linear_model import LogisticRegression, LogisticRegressionCV, LinearRegression, Lasso, LassoCV, Ridge, RidgeCV
 from sklearn.ensemble import RandomForestClassifier
 from six import string_types
+from pprint import pprint
+from time import time
+import logging
+import numpy as np
 
 pipeline = make_pipeline(CountVectorizer(), LogisticRegression())
 
-parameters = {'multinomialnb__alpha': [.3, .4, .5],
-              'multinomialnb__fit_prior': [True, False],
-              'tfidfvectorizer__lowercase': [True, False]}
-# parameters = d2
-parameters = {'countvectorizer__analyzer': ['word'],
-              'countvectorizer__binary': [True, False],
-              'countvectorizer__decode_error': ['strict'],
-              # 'countvectorizer__dtype': [np.int64],
-              # 'countvectorizer__encoding': ['utf-8'],
-              # 'countvectorizer__input': ['content'],
-              # 'countvectorizer__lowercase': [True, False],
-              # 'countvectorizer__max_df': [.5, 1.0],
-              # 'countvectorizer__max_features': [None],
-              # 'countvectorizer__min_df': [1, 2, 4, 6],
-              # 'countvectorizer__ngram_range': [(1, 1), (1, 2), (1, 3)],
-              # 'countvectorizer__preprocessor': [None],
-              # 'countvectorizer__stop_words': [None],
-              # 'countvectorizer__strip_accents': [None],
-              # 'countvectorizer__token_pattern': ['(?u)\\b\\w\\w+\\b'],
-              # 'countvectorizer__tokenizer': [None],
-              # 'countvectorizer__vocabulary': [None],
-              # 'logisticregression__C': [1.0],
-              # 'logisticregression__class_weight': [None],
-              # 'logisticregression__dual': [True, False],
-              'logisticregression__fit_intercept': [True, False],
-              'logisticregression__intercept_scaling': [1],
-              'logisticregression__max_iter': [100],
-              'logisticregression__multi_class': ['ovr'],
-              'logisticregression__n_jobs': [-1],
-              'logisticregression__penalty': ['l1', 'l2'],
-              'logisticregression__random_state': [None],
-              'logisticregression__tol': [0.0001],
-              'logisticregression__verbose': [0],
-              'logisticregression__warm_start': [True, False]}
+# parameters = {'multinomialnb__alpha': [.3, .4, .5],
+#               'multinomialnb__fit_prior': [True, False],
+#               'tfidfvectorizer__lowercase': [True, False]}
+parameters = dict()
 
 # d2
 
@@ -65,15 +40,15 @@ X, y = get_data('./data/articles.csv', n=1000)
 # we define the gridsearchCV
 grid_search = GridSearchCV(pipeline, parameters, n_jobs=-1, verbose=2, cv=2)
 
-# print("Performing grid search...")
-# print("pipeline:", [name for name, _ in pipeline.steps])
-# print("parameters:")
-# print(parameters)
-# t0 = time()
+print("Performing grid search...")
+print("pipeline:", [name for name, _ in pipeline.steps])
+print("parameters:")
+print(parameters)
+t0 = time()
 # we fit it
 grid_search.fit(X, y)
-# print("done in %0.3fs" % (time() - t0))
-# print()
+print("done in %0.3fs" % (time() - t0))
+print()
 
 print("Best score: %0.3f" % grid_search.best_score_)
 print("Best parameters set:")
@@ -84,12 +59,12 @@ for param_name in sorted(parameters.keys()):
 
 
 d = pipeline.get_params()
-d
+
 del d['steps']
-d
+
 keys_ = [k for k in d.keys() if "__" in k]
 
-keys_
+# keys_
 d2 = {}
 for k in keys_:
     # print "penalty" in k
@@ -117,24 +92,25 @@ for k in keys_:
         d2.update({k: [d[k]]})
 
 
-d2
+# redo the grid_search with the generation of the hyperparams
+parameters = d2
 
-n = 100
-np.multiply([1, 5, 10], 100)
+# we define the gridsearchCV
+grid_search = GridSearchCV(pipeline, parameters, n_jobs=-1, verbose=2, cv=2)
 
-[o for o in np.multiply([1, 5, 10], 100)]
+print("Performing grid search...")
+print("pipeline:", [name for name, _ in pipeline.steps])
+print("parameters:")
+print(parameters)
+t0 = time()
+# we fit it
+grid_search.fit(X, y)
+print("done in %0.3fs" % (time() - t0))
+print()
 
-
-def helperTuple(tup):
-    return [(1, i) for i in range(1, 4)]
-
-
-list(np.round(np.linspace(0.5, 1, 3), 2))
-
-ls = ['l2']
-
-"l" in ls[0]
-isinstance(1.0, float)
-dhelperTuple((1, 1))
-
-list(np.round(np.linspace(0, 1, 10), 2))
+print("Best score: %0.3f" % grid_search.best_score_)
+print("Best parameters set:")
+# get the best parameters
+best_parameters = grid_search.best_estimator_.get_params()
+for param_name in sorted(parameters.keys()):
+    print("\t%s: %r" % (param_name, best_parameters[param_name]))
