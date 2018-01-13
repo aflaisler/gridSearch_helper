@@ -21,7 +21,7 @@ import logging
 import numpy as np
 
 
-X, y, coef = make_regression(n_samples=1000, n_features=2,
+X, y, coef = make_regression(n_samples=100, n_features=2,
                              n_informative=1, noise=10,
                              coef=True, random_state=0)
 
@@ -81,7 +81,7 @@ for k in keys_:
     if ("dual" in k) or ("intercept" in k):
         next
     elif (("lasso" in k.lower()) or ("ridge" in k.lower())) and ("alpha" in k):
-        d2.update({k: np.arange(0.01, 1.0, 0.05)})
+        d2.update({k: np.arange(0.01, 1.0, 0.1)})
     elif "max_iter" in k:
         d2.update({k: [o for o in np.multiply([1, 5, 10], 100)]})
     elif isinstance(d[k], string_types):
@@ -105,9 +105,6 @@ for k in keys_:
 
 d2
 
-"Lasso"
-
-np.arange(0.01, 1.0, 0.005)
 
 # redo the grid_search with the generation of the hyperparams
 parameters = d2
