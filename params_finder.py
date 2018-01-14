@@ -20,31 +20,18 @@ from pprint import pprint
 from time import time
 import logging
 import numpy as np
-import hyperparams_ as hp
-from sklearn.preprocessing import Binarizer
-from sklearn.preprocessing import Imputer
-from sklearn.preprocessing import KernelCenterer
-from sklearn.preprocessing import MaxAbsScaler
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.preprocessing import OneHotEncoder
-from sklearn.preprocessing import PolynomialFeatures
-from sklearn.preprocessing import QuantileTransformer
-from sklearn.preprocessing import StandardScaler
-from sklearn.preprocessing import add_dummy_feature
-from sklearn.preprocessing import binarize
-from sklearn.preprocessing import label_binarize
-from sklearn.preprocessing import minmax_scale
-from sklearn.preprocessing import normalize
-from sklearn.svm import SVC
-from sklearn.gaussian_process import GaussianProcessClassifier
-from sklearn.gaussian_process.kernels import RBF
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
-from sklearn.naive_bayes import GaussianNB
-from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
-from sklearn.linear_model import LogisticRegression, LogisticRegressionCV, LinearRegression, Lasso, LassoCV, Ridge, RidgeCV
+from hyperparams_ import Testy
 
-#
+
+t = Testy()
+
+t.DecisionTreeClassifier_hp()
+DecisionTreeClassifier_hp()
+    def tt():
+    return
+
+
+tt()
 # X, y, coef = make_regression(n_samples=100, n_features=2,
 #                              n_informative=1, noise=10,
 #                              coef=True, random_state=0)
@@ -62,18 +49,20 @@ y[:5]
 #     X, y = df.body[:n], df.section_name[:n]
 #     return X, y
 
-
-pipeline = make_pipeline(SVC())
+est = RandomForestClassifier()
+pipeline = make_pipeline(est)
 # , GaussianProcessClassifier(), RBF(), DecisionTreeClassifier(), RandomForestClassifier(), GaussianNB(), QuadraticDiscriminantAnalysis(), LogisticRegression(), AdaBoostClassifier(), LogisticRegressionCV(), LinearRegression(), Lasso(), LassoCV(), Ridge(), RidgeCV())
 
 # parameters = {'multinomialnb__alpha': [.3, .4, .5],
 #               'multinomialnb__fit_prior': [True, False],
 #               'tfidfvectorizer__lowercase': [True, False]}
-parameters = d2
+parameters = {}
 d2
 
+hp.RandomForestClassifier_hp()
 
-parameters = hp.DecisionTreeClassifier_hyperp()
+
+parameters = hp.RandomForestClassifier_hp()
 # d2
 
 
